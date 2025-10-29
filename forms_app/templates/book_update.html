@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>წიგნის რედაქტირება</title>
+</head>
+<body>
+    <h2>✏️ "{{ book.title }}" რედაქტირება</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">შენახვა</button>
+    </form>
+
+    <br>
+    <a href="{% url 'book_list_create' %}">⬅️ დაბრუნება</a>
+</body>
+</html>

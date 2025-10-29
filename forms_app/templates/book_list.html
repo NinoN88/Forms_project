@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>📚 წიგნების სია</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f7f7f7;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        form {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 400px;
+            margin: 0 auto 40px auto;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #357ab7;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #4a90e2;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    {% if messages %}
+<div style="width: 400px; margin: 0 auto 20px auto;">
+    {% for message in messages %}
+        <div style="background-color: {% if message.tags == 'success' %}#d4edda{% elif message.tags == 'warning' %}#f8d7da{% else %}#d1ecf1{% endif %};
+                    color: #155724;
+                    border: 1px solid #c3e6cb;
+                    border-radius: 8px;
+                    padding: 10px;
+                    margin-bottom: 10px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+    <h2>📖 წიგნის დამატება</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_title">📘 წიგნის სათაური:</label>
+        {{ form.title }}
+
+        <label for="id_author">✍️ ავტორის სახელი:</label>
+        {{ form.author }}
+
+        <label for="id_year">📅 გამოცემის თარიღი:</label>
+        {{ form.year }}
+
+        <button type="submit">შენახვა</button>
+    </form>
+
+    <h2>📚 წიგნების სია</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>სათაური</th>
+                <th>ავტორი</th>
+                <th>წელი</th>
+                <th>მოქმედებები</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.year }}</td>
+                <td>
+                    <a href="{% url 'book_update' book.id %}">შესწორება ✏️</a> |
+                    <a href="{% url 'book_delete' book.id %}">წაშლა ❌</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">ჯერ არც ერთი წიგნი არ დამატებულა </td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
